@@ -22,7 +22,7 @@ namespace CefBox
             return (T)provider.GetService(typeof(T));
         }
 
-        public static AppHoster UseRouter(this AppHoster hoster, IServiceProvider provider, Func<IEnumerable<Assembly>> getTargetAssembly)
+        public static AppHoster UseRouter(this AppHoster hoster, IServiceProvider provider, Func<IEnumerable<Assembly>> getTargetAssembly = null)
         {
             var router = provider.GetService<Router>();
             if (router == null)
@@ -30,7 +30,7 @@ namespace CefBox
                 throw new AppException(ExceptionCode.OperationFailed, $"cannot get instance of {nameof(Router)}");
             }
 
-            var allAssembly = getTargetAssembly()?.ToList();
+            var allAssembly = getTargetAssembly?.Invoke()?.ToList();
             if (allAssembly != null)
             {
                 allAssembly.ForEach(target => router.RegistServices(target));

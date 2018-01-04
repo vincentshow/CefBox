@@ -1,5 +1,4 @@
 ﻿using CefSharp;
-using Snail.GT.Service;
 using System.Windows.Forms;
 
 namespace CefBox.WinForm.CefHandlers

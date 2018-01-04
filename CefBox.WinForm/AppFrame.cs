@@ -40,10 +40,10 @@ namespace CefBox.WinForm
         }
 
         public AppFrame(FrameOptions options)
-            : base(options.ShowHeaderBar, AppConfiguration.GetConfig<bool>("debug", "showdevtools"), options.Resizable)
+            : base(options.ShowHeaderBar, AppConfiguration.GetConfig<bool>("debug.showdevtools"), options.Resizable)
         {
             //todo dynamic set
-            this.Icon = new Icon("");//Resource.logo;
+            //this.Icon = new Icon("");//Resource.logo;
             this.BackColor = Color.FromArgb(241, 242, 244);
             this._options = options ?? new FrameOptions();
 
@@ -53,6 +53,7 @@ namespace CefBox.WinForm
                 this.ReloadConcent = () => this.Reload();
                 this.ShowTools = () => this.ShowDevTools();
                 this.CloseLocale = () => this.CloseForm(CloseTypes.CloseSelf);
+                this.LoadCEF(this.GetCefOptions(options, injectObj: AppHoster.Instance));
             };
             ResizeEnd += (s, e) => this.ResetCentralPoint();
         }
@@ -368,7 +369,9 @@ namespace CefBox.WinForm
             {
                 var random = (IntPtr)750000L;
                 Process.GetCurrentProcess().MaxWorkingSet = random;
-                var renders = Process.GetProcessesByName("JJRender");
+
+                var renderName = Path.GetFileNameWithoutExtension(GlobalConfig.AppOptions.RenderName);
+                var renders = Process.GetProcessesByName(renderName);
                 if (renders != null)
                 {
                     foreach (var render in renders)

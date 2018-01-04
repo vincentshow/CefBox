@@ -25,7 +25,7 @@ namespace CefBox.WinForm
             var cefOptions = new CefOptions
             {
                 ContentPath = options.ContentPath,
-                InjectObjName = injectObj == null ? null : "app",
+                InjectObjName = injectObj == null ? null : GlobalConfig.AppOptions.Name,
                 GetInjectObj = () => injectObj
             };
 

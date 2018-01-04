@@ -11,6 +11,8 @@ namespace CefBox.Models
     {
         public string Name { get; set; } = "CefBox";
 
+        public string RenderName { get; set; } = "CefSharp.BrowserSubprocess.exe";
+
         public double MiniVersion { get; set; }
 
         public string Scheme { get; set; } = "app";

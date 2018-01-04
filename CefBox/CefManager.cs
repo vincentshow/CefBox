@@ -35,6 +35,7 @@ namespace CefBox
                 CachePath = Path.Combine(GlobalConfig.AppOptions.DataPath, "webCache"),
                 UserDataPath = UserDataPath,
                 LogFile = Path.Combine(UserDataPath, $"{DateTime.Now.ToString("yyyyMMdd")}.log"),
+                BrowserSubprocessPath = GlobalConfig.AppOptions.RenderName
             };
 
             //settings.CefCommandLineArgs.Add("disable-web-security", "1");
@@ -101,7 +102,7 @@ namespace CefBox
                     var injectObj = cefOptions.GetInjectObj();
                     if (injectObj == null)
                     {
-                        //GTLogger.Instance.Log("inject object is null");
+                        //AppLogger.Instance.Log("inject object is null");
                     }
                     else
                     {
