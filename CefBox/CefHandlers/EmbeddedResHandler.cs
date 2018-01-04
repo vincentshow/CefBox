@@ -14,7 +14,7 @@ namespace CefBox.CefHandlers
 
         static EmbeddedResHandler()
         {
-            CurrentAssembly = Assembly.LoadFrom(Path.Combine(GlobalConfig.HomePath, GlobalConfig.Domain.ResAssemblyName));
+            CurrentAssembly = Assembly.LoadFrom(Path.Combine(GlobalConfig.AppOptions.HomePath, GlobalConfig.Domain.ResAssemblyName));
             ResNamespace = GlobalConfig.Domain.ResNamespace;
         }
 

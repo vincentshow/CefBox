@@ -2,7 +2,7 @@
 using System;
 using System.Diagnostics;
 
-namespace Snail.GT.Service.CEF
+namespace CefBox.Handlers
 {
     public class DefaultLifeSpanHandler : ILifeSpanHandler
     {
@@ -16,14 +16,14 @@ namespace Snail.GT.Service.CEF
             catch (Exception ex)
             {
                 //如果找不到默认程序，强制使用IE打开
-                //JJLogger.Instance.Log($"error when popup {targetUrl}", ex);
+                //AppLogger.Instance.Log($"error when popup {targetUrl}", ex);
                 try
                 {
                     Process.Start("iexplore.exe", targetUrl);
                 }
                 catch (Exception ix)
                 {
-                    //JJLogger.Instance.Log($"error when popup {targetUrl} by ie", ix);
+                    //AppLogger.Instance.Log($"error when popup {targetUrl} by ie", ix);
                 }
             }
             return true;

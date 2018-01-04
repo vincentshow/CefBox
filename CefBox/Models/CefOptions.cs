@@ -1,4 +1,5 @@
-﻿using CefSharp;
+﻿using CefBox.Handlers;
+using CefSharp;
 using System;
 using System.IO;
 
@@ -6,7 +7,6 @@ namespace CefBox.Models
 {
     public class CefOptions
     {
-        public string EmbeddedName { get; set; }
         public string ContentPath { get; set; }
 
         public bool IsRelativeContent { get; set; } = true;
@@ -18,7 +18,7 @@ namespace CefBox.Models
             {
                 if (string.IsNullOrEmpty(_basePath))
                 {
-                    _basePath = EmbeddedName;
+                    _basePath = GlobalConfig.Domain.EmbeddedName;
                 }
                 return _basePath;
             }
@@ -28,14 +28,14 @@ namespace CefBox.Models
 
         public Func<object> GetInjectObj { get; set; }
 
-        public IJsDialogHandler JsDialogHandler { get; set; }
-
         public IKeyboardHandler KeyboardHandler { get; set; }
 
-        public ILifeSpanHandler LifeSpanHandler { get; set; } //= new DefaultLifeSpanHandler();
+        public IJsDialogHandler JsDialogHandler { get; set; } = new DefaultJsDialogHandler();
 
-        public IDragHandler DragHandler { get; set; } //= new DefaultDragHandler();
+        public ILifeSpanHandler LifeSpanHandler { get; set; } = new DefaultLifeSpanHandler();
 
-        public IContextMenuHandler MenuHandler { get; set; } //= new ContextMenuHandler();
+        public IDragHandler DragHandler { get; set; } = new DefaultDragHandler();
+
+        public IContextMenuHandler MenuHandler { get; set; } = new ContextMenuHandler();
     }
 }

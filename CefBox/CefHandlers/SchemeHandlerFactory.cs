@@ -32,7 +32,7 @@ namespace CefBox.CefHandlers
             }
             catch (Exception ex)
             {
-                //GTLogger.Instance.Log("error when create IResourceHandler", ex);
+                //AppLogger.Instance.Log("error when create IResourceHandler", ex);
                 return null;
             }
         }

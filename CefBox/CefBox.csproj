@@ -99,10 +99,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppBuilder.cs" />
+    <Compile Include="Models\AppConfiguration.cs" />
+    <Compile Include="Models\AppOptions.cs" />
     <Compile Include="CefHandlers\CefDragHandler.cs" />
     <Compile Include="CefHandlers\ContextMenuHandler.cs" />
     <Compile Include="CefHandlers\DefaultDragHandler.cs" />
-    <Compile Include="CefHandlers\DefaultFocusHandler.cs" />
     <Compile Include="CefHandlers\DefaultJsDialogHandler.cs" />
     <Compile Include="CefHandlers\DefaultLifeSpanHandler.cs" />
     <Compile Include="CefHandlers\DefaultRequestHandler.cs" />
@@ -130,6 +131,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="settings.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\cef.redist.x64.3.2987.1601\build\cef.redist.x64.targets" Condition="Exists('..\packages\cef.redist.x64.3.2987.1601\build\cef.redist.x64.targets')" />

@@ -14,7 +14,7 @@ namespace CefBox
         private static bool isCleaning;
         private static IDictionary<int, Tuple<long, int>> _reloadHistory;
 
-        public static string UserDataPath = Path.Combine(GlobalConfig.DataPath, "webData");
+        public static string UserDataPath = Path.Combine(GlobalConfig.AppOptions.DataPath, "webData");
 
         public static void Init(Action<CefSettings> customSetting = null)
         {
@@ -32,7 +32,7 @@ namespace CefBox
                 LogSeverity = LogSeverity.Error,
                 RemoteDebuggingPort = 8900,
                 FocusedNodeChangedEnabled = true,
-                CachePath = Path.Combine(GlobalConfig.DataPath, "webCache"),
+                CachePath = Path.Combine(GlobalConfig.AppOptions.DataPath, "webCache"),
                 UserDataPath = UserDataPath,
                 LogFile = Path.Combine(UserDataPath, $"{DateTime.Now.ToString("yyyyMMdd")}.log"),
             };

@@ -40,7 +40,7 @@ namespace CefBox.WinForm
         }
 
         public AppFrame(FrameOptions options)
-            : base(options.ShowHeaderBar, GlobalConfig.GetConfig<bool>("debug", "showdevtools"), options.Resizable)
+            : base(options.ShowHeaderBar, AppConfiguration.GetConfig<bool>("debug", "showdevtools"), options.Resizable)
         {
             //todo dynamic set
             this.Icon = new Icon("");//Resource.logo;

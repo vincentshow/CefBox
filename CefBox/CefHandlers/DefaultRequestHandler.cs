@@ -58,10 +58,10 @@ namespace CefBox.CefHandlers
 
         void IRequestHandler.OnRenderProcessTerminated(IWebBrowser browserControl, IBrowser browser, CefTerminationStatus status)
         {
-            //GTLogger.Instance.Log($"Render has been terminated, status: {status}, content:{browserControl.Address}");
+            //AppLogger.Instance.Log($"Render has been terminated, status: {status}, content:{browserControl.Address}");
             if (!CefManager.ReloadBrowser(browserControl))
             {
-                //GTLogger.Instance.Log($"reload is blocked, content:{browserControl.Address}, app will be killed");
+                //AppLogger.Instance.Log($"reload is blocked, content:{browserControl.Address}, app will be killed");
                 System.Diagnostics.Process.GetCurrentProcess().Kill();
             }
         }
