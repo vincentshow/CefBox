@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CefBox
+namespace CefBox.Models
 {
     public class AppResponse
     {
@@ -21,7 +21,7 @@ namespace CefBox
         public object Data { get; set; }
     }
 
-    public class CefResponse<T> : AppResponse
+    public class AppResponse<T> : AppResponse
     {
         public new T Data { get; set; }
     }

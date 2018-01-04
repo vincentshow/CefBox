@@ -4,16 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CefBox
+namespace CefBox.Models
 {
     public class AppException : Exception
     {
         public ExceptionCode Code { get; set; }
 
-        public AppException(ExceptionCode code = ExceptionCode.None, string info = null) :
+        public AppException(ExceptionCode code = null, string info = null) :
             base(info)
         {
-            this.Code = code;
+            this.Code = code ?? ExceptionCode.None;
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Reflection;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using CefBox.Attributes;
+using CefBox.Models;
 
 namespace CefBox.Middlewares
 {

@@ -2,9 +2,9 @@
 using System;
 using System.IO;
 
-namespace CefBox
+namespace CefBox.Models
 {
-    public class AppOptions
+    public class CefOptions
     {
         public string EmbeddedName { get; set; }
         public string ContentPath { get; set; }
@@ -32,10 +32,10 @@ namespace CefBox
 
         public IKeyboardHandler KeyboardHandler { get; set; }
 
-        //public ILifeSpanHandler LifeSpanHandler { get; set; } = new DefaultLifeSpanHandler();
+        public ILifeSpanHandler LifeSpanHandler { get; set; } //= new DefaultLifeSpanHandler();
 
-        //public IDragHandler DragHandler { get; set; } = new DefaultDragHandler();
+        public IDragHandler DragHandler { get; set; } //= new DefaultDragHandler();
 
-        //public IContextMenuHandler MenuHandler { get; set; } = new ContextMenuHandler();
+        public IContextMenuHandler MenuHandler { get; set; } //= new ContextMenuHandler();
     }
 }

@@ -1,4 +1,5 @@
-﻿using CefSharp;
+﻿using CefBox.Models;
+using CefSharp;
 using System;
 using System.Collections.Generic;
 
@@ -22,7 +23,7 @@ namespace CefBox
 
         void MoveForm();
 
-        void LoadCEF(AppOptions options, object extendParam = null);
+        void LoadCEF(CefOptions options, object extendParam = null);
 
         void ShowMsg(string msg, ShowMsgTypes type = ShowMsgTypes.Info);
 
@@ -67,6 +68,7 @@ namespace CefBox
 
         public string ContentPath { get; set; }
 
+        public FramePositions Position { get; set; } = FramePositions.CenterScreen;
         /// <summary>
         /// 是否允许拖动文件
         /// </summary>
@@ -77,6 +79,22 @@ namespace CefBox
         /// </summary>
         public bool NewFormPerRequest { get; set; }
 
+    }
+
+    public enum FramePositions
+    {
+        /// <summary>
+        /// 居中
+        /// </summary>
+        CenterScreen,
+        /// <summary>
+        /// 右下
+        /// </summary>
+        BottomRight,
+        /// <summary>
+        /// 参考上一个位置，中心点不变
+        /// </summary>
+        RefPreLocation
     }
 
     public enum ShowMsgTypes
