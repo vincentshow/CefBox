@@ -1,4 +1,5 @@
-﻿using CefBox.Middlewares;
+﻿using CefBox.Extensions;
+using CefBox.Middlewares;
 using CefBox.Models;
 using Microsoft.Extensions.Logging;
 using SimpleInjector;
@@ -30,23 +31,25 @@ namespace CefBox.WinForm.Sample
                 ResNamespace = "CefBox.WinForm.Sample.Res"
             };
             AppConfiguration.ConfigFilePath = Path.Combine(GlobalConfig.AppOptions.HomePath, "settings.ini");
+            var form = new SampleForm();
 
             DIContainer = new Container();
             DIContainer.Options.DefaultLifestyle = Lifestyle.Singleton;
 
-            DIContainer.Register(typeof(IServiceProvider), () => DIContainer);
-            DIContainer.Register<ILoggerFactory>(() =>
-            {
-                var factory = new LoggerFactory();
-                return factory;
-            });
+            DIContainer.Register<IAppFrame>(() => form);
+            DIContainer.Register<IServiceProvider>(() => DIContainer);
+            DIContainer.Register<ILoggerFactory>(() => new LoggerFactory());
+
             RegisterService();
             RegisterMiddleware();
 
-            AppHoster.Instance.UseRouter(DIContainer);
+            AppHoster.Instance.UseMiddleware<LoggerMiddleware>(DIContainer);
+            AppHoster.Instance.UseMiddleware<FrameMiddleware>(DIContainer);
+
+            AppHoster.Instance.UseRouter(DIContainer, () => new List<Assembly> { Assembly.GetExecutingAssembly() });
 
             CefManager.Init();
-            var form = new Form1();
+
             Application.Run(form);
         }
 

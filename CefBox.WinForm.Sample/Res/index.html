@@ -3,9 +3,124 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <title></title>
+    <title>CefBox Samples</title>
+    <style>
+        .toolbar {
+            top: 10px;
+            right: 0px;
+            text-align: right;
+        }
+
+            .toolbar a {
+                font-family: Webdings;
+                padding: 5px;
+                cursor: pointer;
+            }
+
+                .toolbar a:hover {
+                    background-color: lightblue;
+                }
+    </style>
 </head>
 <body>
-    <div>Hahahahahhahah....</div>
+    <div class="toolbar" onmousedown="moveBegin()" onmouseout="moveEnd()" onmouseup="moveEnd()" onmousemove="move()">
+        <a onclick="cefRequest('frame/reload');" title="Reload">q</a>
+        <a onclick="cefRequest('frame/showDevTools');" title="Show dev tools">@</a>
+        <a onclick="cefRequest('frame/minimum');" title="Minimum">0</a>
+        <a onclick="cefRequest('frame/maximum');" title="Maximum">1</a>
+        <a onclick="cefRequest('frame/close');" title="Close">r</a>
+    </div>
+    <h1>CefBox Samples</h1>
+    <span id="loadTime"></span>
+    <!--<p>
+        <h2>Frame Operation</h2>
+        <span onclick="cefRequest('frame/showDevTools');">show dev tools</span>
+        <span onclick="cefRequest('frame/minimum');">minimum</span>
+        <span onclick="cefRequest('frame/maximum');">maximum</span>
+        <span onclick="cefRequest('frame/close');">close</span>
+        <hr />
+    </p>-->
+    <p>
+        <h2>MathService</h2>
+        <input id="first" />
+        <select id="op">
+            <option value="add">+</option>
+            <option value="divide">/</option>
+        </select>
+        <input id="second" />
+        <button onclick="mathRequest()">=</button>
+        <span id="result"></span>
+        <br />
+        <span id="error" style="color:orangered"></span>
+        <hr />
+    </p>
+    <script type="text/javascript">
+        var injectName = "app";
+        var jsCallback = "appCallback";
+        var moveTimer = 0;
+
+        window[jsCallback] = function (name, usedLater, data) {
+            window[name] && window[name](data);
+            !usedLater && delete window[name];
+        }
+
+        function cefRequest(path, param, callback) {
+            var callbackName = new Date().getTime().toString();
+            window[callbackName] = function (result) {
+                console.log("callback begin");
+                console.log(result);
+
+                callback && callback(result);
+
+                console.log("callback end");
+            };
+
+            window[injectName].fetch(path, JSON.stringify({ data: param, callback: callbackName }));
+        }
+
+        function frameRequest(opName) {
+            cefRequest("frame/" + opName);
+        }
+
+        function moveBegin() {
+            moveTimer = new Date().getTime();
+        }
+
+        function moveEnd() {
+            moveTimer = 0;
+        }
+
+        function move() {
+            if (moveTimer == 0) {
+                return;
+            }
+
+            var now = new Date().getTime();
+            if (now - moveTimer > 50) {
+                frameRequest("move");
+            }
+        }
+
+        function mathRequest() {
+            var error = document.getElementById("error");
+            var resultLabel = document.getElementById("result");
+
+            error.textContent = "";
+            resultLabel.textContent = "";
+
+            var first = document.getElementById("first").value;
+            var second = document.getElementById("second").value;
+            cefRequest("math/" + document.getElementById("op").value, { first, second }, function (result) {
+                if (result.Code != 0) {
+                    error.textContent = "Error: " + result.Message;
+                }
+                else {
+                    resultLabel.textContent = result.Data;
+                }
+            });
+        }
+
+        document.getElementById("loadTime").textContent = new Date();
+    </script>
 </body>
 </html>

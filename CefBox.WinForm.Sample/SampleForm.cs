@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace CefBox.WinForm.Sample
 {
-    public partial class Form1 : AppFrame
+    public partial class SampleForm : AppFrame
     {
-        public Form1() : base(new FrameOptions
+        public SampleForm() : base(new FrameOptions
         {
             ContentPath = "index.html",
             Height = 500,

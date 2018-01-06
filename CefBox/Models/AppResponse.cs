@@ -14,7 +14,7 @@ namespace CefBox.Models
         /// </summary>
         public int Flag { get; set; }
 
-        public ExceptionCode Code { get; set; } = ExceptionCode.None;
+        public int Code { get; set; } = ExceptionCode.None.Id;
 
         public string Message { get; set; }
 

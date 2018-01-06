@@ -11,6 +11,8 @@ namespace CefBox
 
         IEnumerable<string> DraggedFiles { get; set; }
 
+        IAppFrame CreateSubForm(FrameOptions options);
+
         void ShowForm();
 
         void Maximum();
@@ -23,12 +25,8 @@ namespace CefBox
 
         void MoveForm();
 
-        void LoadCEF(CefOptions options, object extendParam = null);
-
         void ShowMsg(string msg, ShowMsgTypes type = ShowMsgTypes.Info);
 
-        void InvokeActionOnUIThread(Action action);
-        
         void Reload();
 
         void ShowDevTools();

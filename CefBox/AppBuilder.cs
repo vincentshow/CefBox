@@ -1,4 +1,5 @@
-﻿using CefBox.Middlewares;
+﻿using CefBox.Extensions;
+using CefBox.Middlewares;
 using CefBox.Models;
 using System;
 using System.Collections.Concurrent;
@@ -27,7 +28,10 @@ namespace CefBox
 
         public RequestDelegate Build()
         {
-            RequestDelegate app = context => context.ExecJSCallback(() => { throw new NotImplementedException(nameof(AppBuilder)); });
+            RequestDelegate app = context =>
+            {
+                return Task.FromResult(0);
+            };
 
             foreach (var component in _components.Reverse())
             {

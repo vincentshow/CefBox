@@ -50,7 +50,7 @@ namespace CefBox
                         ResNamespace = AppOptions.ResNamespace
                     };
 
-                    var basePath = AppConfiguration.GetConfig<string>("debug.contentpath");
+                    var basePath = AppConfiguration.GetConfig<string>("debug.contentPath");
                     if (string.IsNullOrEmpty(basePath))
                     {
                         _domain.EmbeddedName = $"{_domain.Scheme}://embedded";

@@ -21,6 +21,12 @@ namespace CefBox.Models
 
         public string ResNamespace { get; set; }
 
+        public string InjectObjName { get; set; } = "app";
+
+        public string JSCallbackName { get; set; } = "appCallback";
+
+        public string MainFrameId { get; set; } = "mainFrame";
+
         public readonly string HomePath = AppDomain.CurrentDomain.BaseDirectory;
 
         private string _dataPath;

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Collections.Concurrent;
 using CefBox.Models;
 using CefBox.CefHandlers;
+using CefBox.Extensions;
 
 namespace CefBox
 {

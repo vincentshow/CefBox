@@ -1,4 +1,5 @@
-﻿using CefSharp;
+﻿using CefBox.Extensions;
+using CefSharp;
 using System;
 using System.IO;
 

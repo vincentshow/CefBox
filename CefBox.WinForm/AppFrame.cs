@@ -1,4 +1,5 @@
-﻿using CefBox.Models;
+﻿using CefBox.Extensions;
+using CefBox.Models;
 using CefSharp;
 using CefSharp.Internals;
 using CefSharp.WinForms;
@@ -60,65 +61,31 @@ namespace CefBox.WinForm
 
         #endregion
 
-        public void LoadCEF(CefOptions cefOptions, object extendParam = null)
-        {
-            var _contentPath = string.Empty;
-            if (!string.IsNullOrEmpty(cefOptions.ContentPath) && cefOptions.ContentPath.StartsWith("chrome://"))
-            {
-                _contentPath = cefOptions.ContentPath;
-            }
-            else
-            {
-                _contentPath = cefOptions.IsRelativeContent ? Path.Combine(cefOptions.BasePath, cefOptions.ContentPath) : cefOptions.ContentPath;
-            }
-
-            if (!cefOptions.IsRelativeContent && !Uri.IsWellFormedUriString(_contentPath, UriKind.RelativeOrAbsolute))
-            {
-                throw new ArgumentException("invalid content path found", _contentPath);
-            }
-
-            var checkPath = _contentPath;
-            var param = string.Empty;
-            var pathArray = _contentPath.Split('?');
-            if (pathArray.Length > 1)
-            {
-                checkPath = pathArray[0];
-                param = $"?{pathArray[1]}";
-            }
-
-            //如果本地存在文件，需要将本地路径中的特殊字符转掉，通常发生在debug环境下
-            if (File.Exists(checkPath))
-            {
-                _contentPath = checkPath.ToAppPath() + param;
-            }
-
-            if (this._localBrowser == null)
-            {
-                this.InitLocalBrowser(_contentPath, extendParam);
-                CefManager.LoadBrowser(this._localBrowser, cefOptions);
-            }
-            else if (this._localBrowser.Address != _contentPath)
-            {
-                this._localBrowser.Load(_contentPath);
-            }
-        }
-
         #region IAppFrame
 
         public void Maximum()
         {
-            base.ToggleMaximize();
+            this.InvokeActionSafely(() =>
+            {
+                base.ToggleMaximize();
+            });
         }
 
         public void Minimum()
         {
-            this.RestoreBrowser();
-            WindowState = FormWindowState.Minimized;
+            this.InvokeActionSafely(() =>
+            {
+                this.RestoreBrowser();
+                WindowState = FormWindowState.Minimized;
+            });
         }
 
         public void ShowMsg(string msg, ShowMsgTypes type = ShowMsgTypes.Info)
         {
-            MessageBox.Show(msg);
+            this.InvokeActionSafely(() =>
+            {
+                MessageBox.Show(msg);
+            });
         }
 
         public void InvokeActionOnUIThread(Action action)
@@ -128,13 +95,19 @@ namespace CefBox.WinForm
 
         public void MoveForm()
         {
-            HitMouseDown(WinApi.HitTest.HTCAPTION);
+            this.InvokeActionSafely(() =>
+            {
+                HitMouseDown(WinApi.HitTest.HTCAPTION);
+            });
         }
 
         public virtual void CloseForm(CloseTypes type = CloseTypes.CloseSelf)
         {
-            base.Hide();
-            this.RestoreBrowser();
+            this.InvokeActionSafely(() =>
+            {
+                base.Hide();
+                this.RestoreBrowser();
+            });
 
             if (type == CloseTypes.Hide2Tray)
             {
@@ -186,52 +159,117 @@ namespace CefBox.WinForm
 
         public void ResetForm(FrameOptions options)
         {
-            if (options == null)
+            this.InvokeActionSafely(() =>
             {
-                return;
-            }
+                if (options == null)
+                {
+                    return;
+                }
 
-            var isSameContent = options?.ContentPath == _options?.ContentPath;
-            this.ChangeProps(options.Resizable);
-            ResetOptions(options);
+                var isSameContent = options?.ContentPath == _options?.ContentPath;
+                this.ChangeProps(options.Resizable);
+                ResetOptions(options);
 
-            if (!isSameContent && !string.IsNullOrEmpty(options.ContentPath))
-            {
-                this.LoadCEF(this.GetCefOptions(options, this._options));
-            }
+                if (!isSameContent && !string.IsNullOrEmpty(options.ContentPath))
+                {
+                    this.LoadCEF(this.GetCefOptions(options, this._options));
+                }
+            });
         }
 
         public virtual void ShowForm()
         {
-            base.Show();
-            RestoreBrowser(true);
-            this.BringToFront();
+            this.InvokeActionSafely(() =>
+            {
+                base.Show();
+                RestoreBrowser(true);
+                this.BringToFront();
+            });
         }
 
-        public void ResetMouse(float left, float top)
-        {
-            left *= DpiRatioX;
-            top *= DpiRatioY;
+        //public void ResetMouse(float left, float top)
+        //{
+        //    left *= DpiRatioX;
+        //    top *= DpiRatioY;
 
-            left += this.Location.X;
-            top += this.Location.Y + _localHeaderHeight;
+        //    left += this.Location.X;
+        //    top += this.Location.Y + _localHeaderHeight;
 
-            Cursor.Position = new Point((int)left, (int)top);
-        }
+        //    Cursor.Position = new Point((int)left, (int)top);
+        //}
 
         public void Reload()
         {
-            this._localBrowser?.Reload();
+            this.InvokeActionSafely(() =>
+            {
+                this._localBrowser?.Reload();
+            });
         }
 
         public void ShowDevTools()
         {
-            this._localBrowser?.ShowDevTools();
+            this.InvokeActionSafely(() =>
+            {
+                this._localBrowser?.ShowDevTools();
+            });
+        }
+
+        public IAppFrame CreateSubForm(FrameOptions options)
+        {
+            IAppFrame frame = null;
+            this.InvokeActionSafely(() =>
+            {
+                frame = new AppFrame(options);
+            });
+            return frame;
         }
 
         #endregion
 
         #region private helper
+
+        private void LoadCEF(CefOptions cefOptions, object extendParam = null)
+        {
+            var _contentPath = string.Empty;
+            if (!string.IsNullOrEmpty(cefOptions.ContentPath) && cefOptions.ContentPath.StartsWith("chrome://"))
+            {
+                _contentPath = cefOptions.ContentPath;
+            }
+            else
+            {
+                _contentPath = cefOptions.IsRelativeContent ? Path.Combine(cefOptions.BasePath, cefOptions.ContentPath) : cefOptions.ContentPath;
+            }
+
+            if (!cefOptions.IsRelativeContent && !Uri.IsWellFormedUriString(_contentPath, UriKind.RelativeOrAbsolute))
+            {
+                throw new ArgumentException("invalid content path found", _contentPath);
+            }
+
+            var checkPath = _contentPath;
+            var param = string.Empty;
+            var pathArray = _contentPath.Split('?');
+            if (pathArray.Length > 1)
+            {
+                checkPath = pathArray[0];
+                param = $"?{pathArray[1]}";
+            }
+
+            //如果本地存在文件，需要将本地路径中的特殊字符转掉，通常发生在debug环境下
+            if (File.Exists(checkPath))
+            {
+                _contentPath = checkPath.ToAppPath() + param;
+            }
+
+            if (this._localBrowser == null)
+            {
+                this.InitLocalBrowser(_contentPath, extendParam);
+                CefManager.LoadBrowser(this._localBrowser, cefOptions);
+            }
+            else if (this._localBrowser.Address != _contentPath)
+            {
+                this._localBrowser.Load(_contentPath);
+            }
+        }
 
         private void InitLocalBrowser(string contentPath, object extendParam)
         {
@@ -263,8 +301,8 @@ namespace CefBox.WinForm
                         this.Opacity = 1;
                     }
                     this._localBrowser.Dock = DockStyle.Fill;
+                    this.Browser.Focus();
                 });
-
                 this.ResetWorkingSet();
             };
         }

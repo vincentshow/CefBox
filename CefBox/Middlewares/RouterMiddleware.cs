@@ -10,7 +10,7 @@ using CefBox.Models;
 
 namespace CefBox.Middlewares
 {
-    public class Router : IMiddleware
+    public class RouterMiddleware : IMiddleware
     {
         private readonly ILogger _logger;
         private readonly IServiceProvider _provider;
@@ -21,7 +21,7 @@ namespace CefBox.Middlewares
         /// </summary>
         private readonly IDictionary<string, Tuple<string, string>> actionMapper;
 
-        public Router(ILoggerFactory factory, IServiceProvider provider)
+        public RouterMiddleware(ILoggerFactory factory, IServiceProvider provider)
         {
             _logger = factory.CreateLogger(this.GetType());
             _provider = provider;
@@ -78,7 +78,7 @@ namespace CefBox.Middlewares
             }
 
             var serviceTypes = targetAssembly.GetExportedTypes()
-                                             .Where(type => type.BaseType != null && type.BaseType == typeof(IAppService));
+                                             .Where(type => type.GetInterfaces() != null && type.GetInterfaces().Any(item => item == typeof(IAppService)));
             foreach (var service in serviceTypes)
             {
                 var serviceName = service.Name;
