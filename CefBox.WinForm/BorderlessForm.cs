@@ -146,7 +146,7 @@ namespace CefBox.WinForm
                 DpiRatioY = graphics.DpiY / 96;
             }
 
-            this._showDevTools = showDevTools ?? AppConfiguration.GetConfig<bool>("debug.showdevtools");
+            this._showDevTools = showDevTools ?? false;
             this._forceShowHeaderbar = showHeaderBar ?? false;
             this._showHeaderBar = _forceShowHeaderbar || this._showDevTools;
 

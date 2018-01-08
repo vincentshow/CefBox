@@ -55,7 +55,13 @@ namespace CefBox.Services
         {
             await request.ExecJSCallback(() =>
             {
-                request.Frame.CloseForm();
+                var hideToTray = true;
+                if (request.Data != null && request.Data.Count > 0)
+                {
+                    hideToTray = request.Data.Value<bool>("hideToTray");
+                }
+
+                request.Frame.CloseForm(hideToTray ? CloseTypes.Hide2Tray : CloseTypes.CloseSelf);
                 return 1;
             });
         }
