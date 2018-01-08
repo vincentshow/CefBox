@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CefBox.Models;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -145,7 +146,7 @@ namespace CefBox.WinForm
                 DpiRatioY = graphics.DpiY / 96;
             }
 
-            this._showDevTools = showDevTools ?? false;
+            this._showDevTools = showDevTools ?? AppConfiguration.GetConfig<bool>("debug.showdevtools");
             this._forceShowHeaderbar = showHeaderBar ?? false;
             this._showHeaderBar = _forceShowHeaderbar || this._showDevTools;
 

@@ -49,8 +49,9 @@ namespace CefBox.WinForm.Sample
             AppHoster.Instance.UseRouter(DIContainer, () => new List<Assembly> { Assembly.GetExecutingAssembly() });
 
             CefManager.Init();
+            form.Show();
 
-            Application.Run(form);
+            Application.Run();
         }
 
         private static void RegisterService()

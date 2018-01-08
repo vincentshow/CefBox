@@ -24,11 +24,11 @@
 </head>
 <body>
     <div class="toolbar" onmousedown="moveBegin()" onmouseout="moveEnd()" onmouseup="moveEnd()" onmousemove="move()">
-        <a onclick="cefRequest('frame/reload');" title="Reload">q</a>
-        <a onclick="cefRequest('frame/showDevTools');" title="Show dev tools">@</a>
-        <a onclick="cefRequest('frame/minimum');" title="Minimum">0</a>
-        <a onclick="cefRequest('frame/maximum');" title="Maximum">1</a>
-        <a onclick="cefRequest('frame/close');" title="Close">r</a>
+        <a id="reload" onclick="cefRequest('frame/reload');" title="Reload">q</a>
+        <a id="showDevTools" onclick="cefRequest('frame/showDevTools');" title="Show dev tools">@</a>
+        <a id="minimum" onclick="cefRequest('frame/minimum');" title="Minimum">0</a>
+        <a id="maximum" onclick="cefRequest('frame/maximum');" title="Maximum">1</a>
+        <a id="close" title="Hide to tray">r</a>
     </div>
     <h1>CefBox Samples</h1>
     <span id="loadTime"></span>
@@ -64,6 +64,15 @@
             !usedLater && delete window[name];
         }
 
+        document.getElementsByClassName("toolbar")[0].addEventListener("dblclick", function (e) {
+            cefRequest("frame/maximum");
+            e.stopPropagation();
+        }, false);
+
+        document.getElementById("close").addEventListener("click", function (e) {
+            cefRequest('frame/close', { hideToTray:true});
+        }, false);
+
         function cefRequest(path, param, callback) {
             var callbackName = new Date().getTime().toString();
             window[callbackName] = function (result) {
@@ -77,27 +86,23 @@
 
             window[injectName].fetch(path, JSON.stringify({ data: param, callback: callbackName }));
         }
-
-        function frameRequest(opName) {
-            cefRequest("frame/" + opName);
-        }
-
-        function moveBegin() {
+                
+        function moveBegin(e) {
             moveTimer = new Date().getTime();
         }
 
-        function moveEnd() {
+        function moveEnd(e) {
             moveTimer = 0;
         }
 
-        function move() {
+        function move(e) {
             if (moveTimer == 0) {
                 return;
             }
 
             var now = new Date().getTime();
             if (now - moveTimer > 50) {
-                frameRequest("move");
+                cefRequest("frame/move");
             }
         }
 

@@ -41,10 +41,19 @@ namespace CefBox.WinForm
         }
 
         public AppFrame(FrameOptions options)
-            : base(options.ShowHeaderBar, AppConfiguration.GetConfig<bool>("debug.showdevtools"), options.Resizable)
+            : base(options?.ShowHeaderBar, null, options?.Resizable)
         {
+            if (this.DesignMode)
+            {
+                return;
+            }
+
             //todo dynamic set
-            //this.Icon = new Icon("");//Resource.logo;
+            var iconPath = $"{GlobalConfig.AppOptions.Name}.ico";
+            if (File.Exists(iconPath))
+            {
+                this.Icon = new Icon(iconPath);
+            }
             this.BackColor = Color.FromArgb(241, 242, 244);
             this._options = options ?? new FrameOptions();
 
@@ -182,6 +191,11 @@ namespace CefBox.WinForm
             this.InvokeActionSafely(() =>
             {
                 base.Show();
+
+                this.Visible = true;
+                this.WindowState = FormWindowState.Normal;
+                this.Activate();
+
                 RestoreBrowser(true);
                 this.BringToFront();
             });
