@@ -30,7 +30,6 @@ namespace CefBox.WinForm.Sample
                 ResAssemblyName = "CefBox.WinForm.Sample.exe",
                 ResNamespace = "CefBox.WinForm.Sample.Res"
             };
-            AppConfiguration.ConfigFilePath = Path.Combine(GlobalConfig.AppOptions.HomePath, "settings.ini");
             var form = new SampleForm();
 
             DIContainer = new Container();
@@ -49,9 +48,8 @@ namespace CefBox.WinForm.Sample
             AppHoster.Instance.UseRouter(DIContainer, () => new List<Assembly> { Assembly.GetExecutingAssembly() });
 
             CefManager.Init();
-            form.Show();
 
-            Application.Run();
+            Application.Run(form);
         }
 
         private static void RegisterService()

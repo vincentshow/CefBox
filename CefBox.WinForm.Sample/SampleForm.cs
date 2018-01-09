@@ -16,31 +16,41 @@ namespace CefBox.WinForm.Sample
             : base(new FrameOptions
             {
                 ContentPath = "index.html",
-                Height = 500,
-                Width = 700,
+                Height = 600,
+                Width = 800,
                 IsMain = true
             })
         {
-            this.Icon = new Icon("chromium.ico");
             InitializeComponent();
+            FormClosing += SampleForm_FormClosing;
+        }
+
+        private void SampleForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+
+            this.WindowState = FormWindowState.Minimized;
+            this.Hide();
+
+            this.notifyIcon.Visible = false;
         }
 
         private void NotifyIcon_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
-                this.ShowForm();
+                this.ShowFrame();
             }
         }
 
         private void Exit_Click(object sender, EventArgs e)
         {
-            this.CloseForm(CloseTypes.CloseSelf);
+            this.CloseFrame(CloseTypes.CloseSelf);
         }
 
         private void ShowWindow_Click(object sender, EventArgs e)
         {
-            this.ShowForm();
+            this.ShowFrame();
         }
 
         private void Hello_Click(object sender, EventArgs e)

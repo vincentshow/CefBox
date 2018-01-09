@@ -6,23 +6,34 @@ using System.Threading.Tasks;
 
 namespace CefBox.Models
 {
+    /// <summary>
+    /// unified data used between cef and js
+    /// </summary>
     public class AppResponse
     {
         /// <summary>
-        /// 对于前端交互请求，1表示成功
-        /// 后端sdk交互时，flag对应sdk的errorcode
+        /// the interop result, 1:success
         /// </summary>
         public int Flag { get; set; }
-
+        /// <summary>
+        /// error code
+        /// </summary>
         public int Code { get; set; } = ExceptionCode.None.Id;
-
+        /// <summary>
+        /// logic message
+        /// </summary>
         public string Message { get; set; }
-
+        /// <summary>
+        /// logic result
+        /// </summary>
         public object Data { get; set; }
     }
 
     public class AppResponse<T> : AppResponse
     {
+        /// <summary>
+        /// logic result
+        /// </summary>
         public new T Data { get; set; }
     }
 }

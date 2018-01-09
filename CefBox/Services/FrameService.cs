@@ -6,11 +6,33 @@ namespace CefBox.Services
 {
     public class FrameService : IAppService
     {
+        public async Task Reset(AppRequest request)
+        {
+            await request.ExecJSCallback(() =>
+            {
+                var options = request.Data.ToObject<FrameOptions>();
+                if (options == null)
+                {
+                    throw new AppException(ExceptionCode.InvalidArgument, "frame options cannot be null");
+                }
+                request.Frame.ResetFrame(options);
+                return 1;
+            });
+        }
+
+        public async Task Open(AppRequest request)
+        {
+            await request.ExecJSCallback(() =>
+            {
+                return 1;
+            });
+        }
+
         public async Task Move(AppRequest request)
         {
             await request.ExecJSCallback(() =>
             {
-                request.Frame.MoveForm();
+                request.Frame.MoveFrame();
                 return 1;
             });
         }
@@ -61,7 +83,7 @@ namespace CefBox.Services
                     hideToTray = request.Data.Value<bool>("hideToTray");
                 }
 
-                request.Frame.CloseForm(hideToTray ? CloseTypes.Hide2Tray : CloseTypes.CloseSelf);
+                request.Frame.CloseFrame(hideToTray ? CloseTypes.Hide2Tray : CloseTypes.CloseSelf);
                 return 1;
             });
         }

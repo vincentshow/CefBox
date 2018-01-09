@@ -20,6 +20,18 @@ namespace CefBox.WinForm
             }
         }
 
+        public static T InvokeActionSafely<T>(this Control control, Func<T> handler)
+        {
+            if (control.InvokeRequired)
+            {
+                return (T)control.Invoke(handler);
+            }
+            else
+            {
+                return handler();
+            }
+        }
+
         public static CefOptions GetCefOptions(this IAppFrame frame, FrameOptions options, FrameOptions oldOptions = null, object injectObj = null)
         {
             var cefOptions = new CefOptions

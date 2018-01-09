@@ -11,25 +11,32 @@ namespace CefBox
 
         IEnumerable<string> DraggedFiles { get; set; }
 
-        IAppFrame CreateSubForm(FrameOptions options);
+        /// <summary>
+        /// show sub frame by specified option
+        /// </summary>
+        /// <param name="options">the frame options used to create sub frame</param>
+        /// <returns></returns>
+        IAppFrame ShowSubForm(FrameOptions options);
 
-        void ShowForm();
+        void ShowFrame();
 
         void Maximum();
 
         void Minimum();
 
-        void ResetForm(FrameOptions options);
+        void ResetFrame(FrameOptions options);
 
-        void CloseForm(CloseTypes type = CloseTypes.CloseSelf);
+        void CloseFrame(CloseTypes type = CloseTypes.CloseSelf);
 
-        void MoveForm();
+        void MoveFrame();
 
         void ShowMsg(string msg, ShowMsgTypes type = ShowMsgTypes.Info);
 
         void Reload();
 
         void ShowDevTools();
+
+        void BeforeCloing();
     }
 
     public enum CloseTypes

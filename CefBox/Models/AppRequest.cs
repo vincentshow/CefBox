@@ -7,36 +7,39 @@ using Microsoft.Extensions.Logging;
 
 namespace CefBox.Models
 {
+    /// <summary>
+    /// unified data used between js and cef
+    /// </summary>
     public class AppRequest
     {
         public string Id { get; set; } = DateTime.Now.ToFileTimeUtc().ToString();
         /// <summary>
-        /// 当前请求所在的frame
+        /// specify the frame which request from
         /// </summary>
         public string FrameId { get; set; }
 
         /// <summary>
-        /// 请求的服务名
+        /// request service name
         /// </summary>
         public string Service { get; set; }
 
         /// <summary>
-        /// 请求的方法名
+        /// requets action name
         /// </summary>
         public string Action { get; set; }
 
         /// <summary>
-        /// js回调方法名
+        /// js callback function name 
         /// </summary>
         public string Callback { get; set; }
 
         /// <summary>
-        /// 请求方法的参数
+        /// request params
         /// </summary>
         public JObject Data { get; set; }
 
         /// <summary>
-        /// 当前请求所在的frame
+        /// frame which current request belong to
         /// </summary>
         public IAppFrame Frame { get; set; }
     }
@@ -44,7 +47,7 @@ namespace CefBox.Models
     public class AppRequest<TParam> : AppRequest
     {
         /// <summary>
-        /// 逻辑参数
+        /// logic param
         /// </summary>
         public new TParam Data { get; set; }
     }

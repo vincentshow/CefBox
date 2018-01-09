@@ -37,13 +37,14 @@ namespace CefBox.WinForm.CefHandlers
 
                 if (dialogType == CefJsDialogType.Alert)
                 {
-                    MessageBox.Show(messageText, "GT提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    //todo title is configed
+                    MessageBox.Show(messageText, "CefBox", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     suppressMessage = true;
                     result = false;
                 }
                 else if (dialogType == CefJsDialogType.Confirm)
                 {
-                    var flag = MessageBox.Show(messageText, "GT提示", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                    var flag = MessageBox.Show(messageText, "CefBox", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                     callback?.Continue(flag == DialogResult.Yes);
                     result = true;
                 }

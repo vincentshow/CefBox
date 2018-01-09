@@ -49,7 +49,7 @@ namespace CefBox.WinForm
             }
 
             //todo dynamic set
-            var iconPath = $"{GlobalConfig.AppOptions.Name}.ico";
+            var iconPath = $"app.ico";
             if (File.Exists(iconPath))
             {
                 this.Icon = new Icon(iconPath);
@@ -62,7 +62,7 @@ namespace CefBox.WinForm
                 ResetOptions(options);
                 this.ReloadConcent = () => this.Reload();
                 this.ShowTools = () => this.ShowDevTools();
-                this.CloseLocale = () => this.CloseForm(CloseTypes.CloseSelf);
+                this.CloseLocale = () => this.CloseFrame(CloseTypes.CloseSelf);
                 this.LoadCEF(this.GetCefOptions(options, injectObj: AppHoster.Instance));
             };
             ResizeEnd += (s, e) => this.ResetCentralPoint();
@@ -97,12 +97,7 @@ namespace CefBox.WinForm
             });
         }
 
-        public void InvokeActionOnUIThread(Action action)
-        {
-            this.InvokeActionSafely(action);
-        }
-
-        public void MoveForm()
+        public void MoveFrame()
         {
             this.InvokeActionSafely(() =>
             {
@@ -110,7 +105,7 @@ namespace CefBox.WinForm
             });
         }
 
-        public virtual void CloseForm(CloseTypes type = CloseTypes.CloseSelf)
+        public virtual void CloseFrame(CloseTypes type = CloseTypes.CloseSelf)
         {
             this.InvokeActionSafely(() =>
             {
@@ -143,16 +138,18 @@ namespace CefBox.WinForm
                 base.Close();
 
                 CefManager.Shutdown();
-                Application.Exit();
+                //Application.Exit();
+                Environment.Exit(0);
 
                 cancellationTokenSource.Cancel();
             }
             else
             {
-                Task.Run(() =>
+                Task.Run(async () =>
                 {
                     try
                     {
+                        await Task.Delay(5000);
                         this?.InvokeActionSafely(() =>
                         {
                             base.Close();
@@ -166,7 +163,7 @@ namespace CefBox.WinForm
             }
         }
 
-        public void ResetForm(FrameOptions options)
+        public void ResetFrame(FrameOptions options)
         {
             this.InvokeActionSafely(() =>
             {
@@ -186,7 +183,7 @@ namespace CefBox.WinForm
             });
         }
 
-        public virtual void ShowForm()
+        public virtual void ShowFrame()
         {
             this.InvokeActionSafely(() =>
             {
@@ -201,16 +198,16 @@ namespace CefBox.WinForm
             });
         }
 
-        //public void ResetMouse(float left, float top)
-        //{
-        //    left *= DpiRatioX;
-        //    top *= DpiRatioY;
+        public void ResetMouse(float left, float top)
+        {
+            left *= DpiRatioX;
+            top *= DpiRatioY;
 
-        //    left += this.Location.X;
-        //    top += this.Location.Y + _localHeaderHeight;
+            left += this.Location.X;
+            top += this.Location.Y + _localHeaderHeight;
 
-        //    Cursor.Position = new Point((int)left, (int)top);
-        //}
+            Cursor.Position = new Point((int)left, (int)top);
+        }
 
         public void Reload()
         {
@@ -228,14 +225,37 @@ namespace CefBox.WinForm
             });
         }
 
-        public IAppFrame CreateSubForm(FrameOptions options)
+        public IAppFrame ShowSubForm(FrameOptions options)
         {
-            IAppFrame frame = null;
+            AppFrame frame = null;
             this.InvokeActionSafely(() =>
             {
                 frame = new AppFrame(options);
+                if (options.IsModal)
+                {
+                    this.Enabled = false;
+                    frame.Show(this);
+                }
+                else
+                {
+                    frame.Show();
+                }
             });
             return frame;
+        }
+
+        public void BeforeCloing()
+        {
+            var parent = this.Owner;
+            if (parent != null)
+            {
+                this.InvokeActionSafely(() =>
+                {
+                    parent.Enabled = true;
+                    parent.Activate();
+                    parent.Focus();
+                });
+            }
         }
 
         #endregion

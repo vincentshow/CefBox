@@ -66,36 +66,44 @@ namespace CefBox.Middlewares
 
             if (frameOptions.IsMain)
             {
-                //todo special request
-                //_context.ChangeMainForm(frameOptions);
+                if (request.Frame != _mainFrame)
+                {
+                    throw new AppException(ExceptionCode.InvalidOperation, "change main frame must be requested from main frame");
+                }
+                request.Frame.ResetFrame(frameOptions);
             }
             else
             {
-                IAppFrame frame = null;
-                if (frameOptions.NewFormPerRequest && request.Frame != null)
+                var frame = this.GetFrameById(frameOptions.Id);
+                if (frame != null)
                 {
-                    //todo cannot close self if frame is main
-                    request.Frame.CloseForm(CloseTypes.CloseSelf);
+                    frame.ShowFrame();
+                    if (!frameOptions.NewFormPerRequest)
+                    {
+                        frame.ResetFrame(frameOptions);
+                    }
+                    return;
                 }
+
                 this.framesMapper.TryRemove(frameOptions.Id, out frame);
 
-                frame = _mainFrame.CreateSubForm(frameOptions);
+                frame = request.Frame.ShowSubForm(frameOptions);
                 this.framesMapper.TryAdd(frameOptions.Id, frame);
-                request.Frame = frame;
             }
         }
 
         private void Close(AppRequest request)
         {
+            request.Frame.BeforeCloing();
+
             var hideToTray = true;
             if (request.Data != null && request.Data.Count > 0)
             {
-                //todo
                 hideToTray = request.Data.Value<bool>("hideToTray");
             }
 
             IAppFrame frame = null;
-            request.Frame.CloseForm(hideToTray ? CloseTypes.Hide2Tray : CloseTypes.CloseSelf);
+            request.Frame.CloseFrame(hideToTray ? CloseTypes.Hide2Tray : CloseTypes.CloseSelf);
             this.framesMapper.TryRemove(request.FrameId, out frame);
         }
     }

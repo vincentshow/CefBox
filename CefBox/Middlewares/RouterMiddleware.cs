@@ -52,7 +52,7 @@ namespace CefBox.Middlewares
                 Tuple<string, string> action;
                 if (!actionMapper.TryGetValue($"{serviceName}/{context.Action.ToLower()}", out action))
                 {
-                    throw new AppException(ExceptionCode.NotImplemented, $"{context.Service}.{context.Action}");
+                    throw new AppException(ExceptionCode.NotImplemented, $"cannot find route: {context.Service}.{context.Action}");
                 }
 
                 if (service.FullName != action.Item1)

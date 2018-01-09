@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace CefBox.Models
 {
+    /// <summary>
+    /// configuration manager, using ini format file 
+    /// </summary>
     public class AppConfiguration
     {
         [DllImport("kernel32", CharSet = CharSet.Unicode, SetLastError = true)]
@@ -18,13 +21,16 @@ namespace CefBox.Models
         private static extern int GetPrivateProfileString(string lpAppName, string lpKeyName, string lpDefault, StringBuilder lpReturnedString, int nSize, string lpFileName);
 
         private static string _configFilePath = null;
+        /// <summary>
+        /// the config file path, default settings.ini
+        /// </summary>
         public static string ConfigFilePath
         {
             get
             {
                 if (_configFilePath == null)
                 {
-                    throw new InvalidOperationException($"{nameof(ConfigFilePath)} is null");
+                    _configFilePath = Path.GetFullPath("settings.ini");
                 }
                 return _configFilePath;
             }
@@ -35,7 +41,13 @@ namespace CefBox.Models
         }
 
         #region get conf
-
+        /// <summary>
+        /// get config value
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sectionKey">format {section}.{key}</param>
+        /// <param name="path">config file path, use ConfigFilePath when null</param>
+        /// <returns></returns>
         public static T GetConfig<T>(string sectionKey, string path = null)
         {
             var param = ParseSectionKey(sectionKey);
@@ -55,7 +67,7 @@ namespace CefBox.Models
 
         public static string GetConfig(string section, string key, string path = null)
         {
-            path = path ?? _configFilePath;
+            path = path ?? ConfigFilePath;
 
             StringBuilder temp = new StringBuilder(255);
             GetPrivateProfileString(section, key, "", temp, 255, path);
@@ -79,7 +91,7 @@ namespace CefBox.Models
 
         public static bool WriteConfig(string section, string key, string value, string path = null)
         {
-            path = path ?? _configFilePath;
+            path = path ?? ConfigFilePath;
             if (!path.FileExists())
             {
                 if (!Path.GetDirectoryName(path).DirExists())
@@ -89,7 +101,7 @@ namespace CefBox.Models
                 File.Create(path);
             }
 
-            return WritePrivateProfileString(section, key, value, _configFilePath);
+            return WritePrivateProfileString(section, key, value, path);
         }
 
         #endregion

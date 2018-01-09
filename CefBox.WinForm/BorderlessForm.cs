@@ -136,7 +136,6 @@ namespace CefBox.WinForm
 
         public BorderlessForm(bool? showHeaderBar = null, bool? showDevTools = null, bool? resizable = null, bool minimizeBox = true)
         {
-
             this.DoubleBuffered = true;
             this.FormBorderStyle = FormBorderStyle.None;
 
@@ -152,6 +151,8 @@ namespace CefBox.WinForm
 
             this.InitComponents();
             this.ChangeProps(resizable, minimizeBox);
+
+            this.Shown += (sender, e) => WinApi.ShowWindow(this.Handle, 5);
         }
 
         public void ChangeProps(bool? resizable = null, bool minimizeBox = true)

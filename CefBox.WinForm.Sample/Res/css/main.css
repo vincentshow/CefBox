@@ -1,0 +1,51 @@
+﻿body {
+    margin: 0px;
+    overflow-y: hidden;
+}
+
+article {
+    margin: 10px;
+}
+
+#toolbar {
+    top: 10px;
+    right: 0px;
+    text-align: right;
+    background-color: deepskyblue;
+    padding: 10px;
+}
+
+    #toolbar a {
+        font-family: Webdings;
+        padding: 5px;
+        cursor: pointer;
+        color: #e4e5e6;
+        font-weight: 100;
+    }
+
+        #toolbar a:hover {
+            color: #fff;
+        }
+
+a.btn {
+    cursor: pointer;
+    padding: 10px;
+}
+
+    a.btn:hover {
+        background-color: #e1dada;
+    }
+
+.resize {
+    background: url(../img/resize.png) no-repeat center center;
+    background-size: 85%;
+    padding: 2px;
+    width: 12px;
+    height: 12px;
+    position: fixed;
+    right: 0px;
+    bottom: 0px;
+    z-index: 9999999;
+    opacity: 0.6;
+    cursor: default;
+}

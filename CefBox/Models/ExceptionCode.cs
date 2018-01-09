@@ -13,6 +13,7 @@ namespace CefBox.Models
         public static ExceptionCode NotImplemented = new ExceptionCode(_sysSeed++, nameof(NotImplemented));
         public static ExceptionCode OperationFailed = new ExceptionCode(_sysSeed++, nameof(OperationFailed));
         public static ExceptionCode InvalidArgument = new ExceptionCode(_sysSeed++, nameof(InvalidArgument));
+        public static ExceptionCode InvalidOperation = new ExceptionCode(_sysSeed++, nameof(InvalidOperation));
 
         public static ExceptionCode UnknownError = new ExceptionCode(99999, nameof(UnknownError));
 

@@ -65,7 +65,7 @@ namespace CefBox.WinForm.Sample
             // exit
             // 
             this.exit.Name = "exit";
-            this.exit.Image = new Bitmap("chromium.ico");
+            this.exit.Image = new Bitmap("app.ico");
             this.exit.Text = "Exit";
             this.exit.Click += new System.EventHandler(this.Exit_Click);
             // 
