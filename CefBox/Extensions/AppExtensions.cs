@@ -20,9 +20,15 @@ namespace CefBox.Extensions
             return (T)provider.GetService(typeof(T));
         }
 
+        public static AppHoster UseMiddleware<T>(this AppHoster hoster, Func<T> getInstance) where T : IMiddleware
+        {
+            hoster.AppBuilder.Use(getInstance);
+            return hoster;
+        }
+
         public static AppHoster UseMiddleware<T>(this AppHoster hoster, IServiceProvider provider) where T : IMiddleware
         {
-            hoster.AppBuilder.UseMiddleware(() => provider.GetService<T>());
+            hoster.AppBuilder.Use(() => provider.GetService<T>());
             return hoster;
         }
 
@@ -40,7 +46,7 @@ namespace CefBox.Extensions
                 allAssembly.ForEach(target => router.RegistServices(target));
             }
 
-            hoster.AppBuilder.UseMiddleware(() => router);
+            hoster.AppBuilder.Use(() => router);
             return hoster;
         }
 

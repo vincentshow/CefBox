@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace CefBox.Middlewares
 {
+    /// <summary>
+    /// frame manager, capture all request from js and set request.frame by request.frameId. 
+    /// request of frame/open and frame/close will be attached with extra logic that maintain all frames in current appDomain
+    /// </summary>
     public class FrameMiddleware : IMiddleware
     {
         private readonly ILogger _logger;

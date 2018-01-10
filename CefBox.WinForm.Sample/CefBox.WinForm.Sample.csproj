@@ -114,6 +114,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Middlewares\SampleMiddleware.cs" />
     <Compile Include="SampleForm.cs">
       <SubType>Form</SubType>
     </Compile>

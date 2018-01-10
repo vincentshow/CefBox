@@ -35,16 +35,17 @@ namespace CefBox.WinForm.CefHandlers
                     });
                 }
 
+                var title = GlobalConfig.AppOptions.Title ?? GlobalConfig.AppOptions.Name ?? "CefBox";
                 if (dialogType == CefJsDialogType.Alert)
                 {
                     //todo title is configed
-                    MessageBox.Show(messageText, "CefBox", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(messageText, title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     suppressMessage = true;
                     result = false;
                 }
                 else if (dialogType == CefJsDialogType.Confirm)
                 {
-                    var flag = MessageBox.Show(messageText, "CefBox", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                    var flag = MessageBox.Show(messageText, title, MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                     callback?.Continue(flag == DialogResult.Yes);
                     result = true;
                 }

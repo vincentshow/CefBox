@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace CefBox.Middlewares
 {
+    /// <summary>
+    /// log request info and time that cef cost when processing
+    /// </summary>
     public class LoggerMiddleware : IMiddleware
     {
         private readonly ILogger _logger;

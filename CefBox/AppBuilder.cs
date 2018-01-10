@@ -53,7 +53,7 @@ namespace CefBox
             });
         }
 
-        public AppBuilder UseMiddleware<TMiddleWare>(Func<TMiddleWare> getInstance) where TMiddleWare : IMiddleware
+        public AppBuilder Use<TMiddleWare>(Func<TMiddleWare> getInstance) where TMiddleWare : IMiddleware
         {
             return this.Use(next =>
             {

@@ -52,3 +52,7 @@ function changeMain() {
     cefRequest("frame/open", { width: this.innerWidth + 100, height: this.innerHeight + 70, contentPath: "index.html", isMain: true });
 }
 
+function nothing() {
+    cefRequest("nothing/test");
+}
+
