@@ -8,8 +8,10 @@ However, the primary manner of the interop between js and bounded object is mad 
 
 As you can see, CefBox is the one to solve these problems for you. 
 
-## Goals(Uncomplete)
+## Goals
 - auto register route path by service names and action names.
-- refer to .net core middleware, building a more extendable app with a pipeline-like process when receiving rpc request from js.
+- refer to .net core middleware, building a more extensibility app with a pipeline-like process when receiving rpc request from js.
 - provide borderless winform frame that can host local html5 application.
 
+## Using(to be edited)
+- 
