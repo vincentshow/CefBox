@@ -8,7 +8,11 @@
 </head>
 <body>
     <header>
-        <div id="toolbar">
+        <div id="toolbar" class="toolbar">
+            <div class="logo">
+                <img class="icon" src="img/app.ico" />
+                <span id="title" class="title">CefBox Sample</span>
+            </div>
             <!--<a id="reload" onclick="cefRequest('frame/reload');" title="Reload">q</a>
             <a id="showDevTools" onclick="cefRequest('frame/showDevTools');" title="Show dev tools">@</a>-->
             <a id="minimum" onclick="cefRequest('frame/minimum');" title="Minimum">0</a>
@@ -17,9 +21,8 @@
         </div>
     </header>
     <article>
-        <h2>CefBox Samples</h2>
         <span id="loadTime"></span>
-        <section>
+        <section class="math">
             <h3>MathService</h3>
             <input id="first" />
             <select id="op">
@@ -27,7 +30,7 @@
                 <option value="divide">/</option>
             </select>
             <input id="second" />
-            <span onclick="mathRequest()" class="btn">=</span>
+            <a onclick="mathRequest()" class="btn">=</a>
             <span id="result"></span>
             <br />
         </section>
@@ -60,7 +63,7 @@
     <script type="text/javascript" src="js/general.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
     <script type="text/javascript">
-        document.getElementById("loadTime").textContent = new Date();
+        document.getElementById("loadTime").textContent = [getQueryString("title") || "CefBox Sample", getQueryString("id") || "", "load time: ", new Date()].join(" ");
     </script>
 </body>
 </html>

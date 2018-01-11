@@ -169,6 +169,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Res\css\main.css" />
+    <Content Include="Res\img\app.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Res\img\resize.png" />
     <EmbeddedResource Include="Res\sub.html" />
     <Content Include="Res\js\general.js" />

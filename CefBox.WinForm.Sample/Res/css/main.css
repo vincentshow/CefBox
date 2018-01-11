@@ -1,4 +1,14 @@
-﻿body {
+﻿html {
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%
+}
+
+body {
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+    font-family: '微软雅黑';
+    overflow: hidden;
+    font-size: 14px;
     margin: 0px;
     overflow-y: hidden;
 }
@@ -7,33 +17,55 @@ article {
     margin: 10px;
 }
 
-#toolbar {
+.toolbar {
     top: 10px;
     right: 0px;
     text-align: right;
     background-color: deepskyblue;
     padding: 10px;
+    height: 25px;
 }
 
-    #toolbar a {
+    .toolbar a {
         font-family: Webdings;
         padding: 5px;
         cursor: pointer;
         color: #e4e5e6;
         font-weight: 100;
+        vertical-align: middle;
     }
 
-        #toolbar a:hover {
+        .toolbar a:hover {
             color: #fff;
         }
 
+.logo {
+    position: fixed;
+    left: 10px;
+    cursor: pointer;
+}
+
+    .logo .icon {
+        height: 25px;
+        width: 25px;
+        vertical-align: middle;
+    }
+
+    .logo .title {
+        font-size: large;
+        font-weight: bold;
+        color: #fff;
+        vertical-align: middle;
+        padding-left: 5px;
+    }
+
 a.btn {
     cursor: pointer;
-    padding: 10px;
+    padding: 5px;
 }
 
     a.btn:hover {
-        background-color: #e1dada;
+        background-color: #e4e5e6;
     }
 
 .resize {

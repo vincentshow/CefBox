@@ -29,7 +29,7 @@ function mathRequest() {
 function openNew(isModal) {
     isModal = isModal || false;
     var id = new Date().getTime();
-    cefRequest("frame/open", { id, isModal, width: 600, height: 400, contentPath: "sub.html?id=" + id });
+    cefRequest("frame/open", { id, isModal, width: 600, height: 400, contentPath: "sub.html?title=CefBox Sub Frame&id=" + id });
 }
 
 function original(isConfirm) {
